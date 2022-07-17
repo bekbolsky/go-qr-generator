@@ -1,0 +1,14 @@
+# ignore vscode settings folder
+.vscode
+
+# ignore txt files
+*.txt
+
+# ignore executables
+*.exe
+
+# ignore go coverage files
+*.out
+
+# ignore go test output files
+*.test
