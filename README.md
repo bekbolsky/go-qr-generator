@@ -34,4 +34,4 @@ There are also some other flags:
 
 # License
 
-[MIT](https://choosealicense.com/licenses/mit/))
+[MIT](https://choosealicense.com/licenses/mit/)
