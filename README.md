@@ -9,8 +9,22 @@ A simple CLI application to generate a QR code for URL links in a given text fil
 
 Make sure you have Go installed and have the `go` command available in your PATH.
 
+First, clone the repository:
+
 ```bash
-go get github.com/bekbolsky/go-qr-generator
+git clone https://github.com/bekbolsky/go-qr-generator.git
+```
+
+Then, go to the directory:
+
+```bash
+cd go-qr-generator
+```
+
+Build the application:
+
+```bash
+go build
 ```
 
 Then, you can use the application:
