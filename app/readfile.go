@@ -20,12 +20,10 @@ func ReadLinkFromFile(filePath string) []string {
 
 	sc := bufio.NewScanner(file)
 	for sc.Scan() {
-		line := sc.Text()
-		line = strings.TrimSpace(line)
-		if line == "" {
-			continue
+		line := strings.TrimSpace(sc.Text())
+		if line != "" {
+			links = append(links, line)
 		}
-		links = append(links, line)
 	}
 	if err := sc.Err(); err != nil {
 		log.Fatalf("scan file failed: %v", err)
