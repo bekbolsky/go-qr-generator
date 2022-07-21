@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 
 	"github.com/bekbolsky/go-qr-generator/app"
 )
@@ -39,12 +40,21 @@ func main() {
 	// read links from file
 	links := app.ReadLinkFromFile(inputFileName)
 
+	var wg sync.WaitGroup
+
 	// make qr codes
 	for i, link := range links {
-		fileName := app.ParseLink(link)
-		// output in current directory
-		outputFileName := fmt.Sprintf("%s/%s-%d.png", outputFolder, fileName, i+1)
-		app.GenerateQR(link, outputFileName, transparent, FgColor)
+		wg.Add(1)
+		go func(i int, link string) {
+			defer wg.Done()
+
+			fileName := app.ParseLink(link)
+			// output in current directory
+			outputFileName := fmt.Sprintf("%s/%s-%d.png", outputFolder, fileName, i+1)
+			app.GenerateQR(link, outputFileName, transparent, FgColor)
+		}(i, link)
 	}
+	wg.Wait()
+
 	fmt.Println("QR codes created")
 }
