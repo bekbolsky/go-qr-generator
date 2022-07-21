@@ -8,7 +8,7 @@ import (
 	"github.com/yeqown/go-qrcode/writer/standard"
 )
 
-func MakeQR(link string, output string, transparent bool, FgColor string) {
+func GenerateQR(link string, output string, transparent bool, FgColor string) {
 	encodeOptions := []qrcode.EncodeOption{
 		qrcode.WithErrorCorrectionLevel(qrcode.ErrorCorrectionMedium),
 		qrcode.WithEncodingMode(qrcode.EncModeAuto),
@@ -16,7 +16,7 @@ func MakeQR(link string, output string, transparent bool, FgColor string) {
 
 	qr, err := qrcode.NewWith(link, encodeOptions...)
 	if err != nil {
-		log.Fatalf("make qr code failed: %v", err)
+		log.Fatalf("initializing qrcode failed: %v", err)
 	}
 
 	var transparency standard.ImageOption
@@ -34,9 +34,9 @@ func MakeQR(link string, output string, transparent bool, FgColor string) {
 
 	w, err := standard.New(output, imageOptions...)
 	if err != nil {
-		log.Fatalf("make qr code failed: %v", err)
+		log.Fatalf("creating a standard writer failed: %v", err)
 	}
 	if err := qr.Save(w); err != nil {
-		log.Fatalf("make qr code failed: %v", err)
+		log.Fatalf("saving qr code failed: %v", err)
 	}
 }

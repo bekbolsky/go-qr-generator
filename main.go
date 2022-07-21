@@ -44,6 +44,7 @@ func main() {
 		fileName := app.ParseLink(link)
 		// output in current directory
 		outputFileName := fmt.Sprintf("%s/%s-%d.png", outputFolder, fileName, i+1)
-		app.MakeQR(link, outputFileName, transparent, FgColor)
+		app.GenerateQR(link, outputFileName, transparent, FgColor)
 	}
+	fmt.Println("QR codes created")
 }
