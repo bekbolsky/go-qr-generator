@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"sync"
 
 	"github.com/bekbolsky/go-qr-generator/app"
 )
@@ -39,12 +40,26 @@ func main() {
 	// read links from file
 	links := app.ReadLinkFromFile(inputFileName)
 
+	var wg sync.WaitGroup
+
 	// make qr codes
 	for i, link := range links {
-		fileName := app.ParseLink(link)
-		// output in current directory
-		outputFileName := fmt.Sprintf("%s/%s-%d.png", outputFolder, fileName, i+1)
-		app.GenerateQR(link, outputFileName, transparent, FgColor)
+		// add goroutine to wait group
+		wg.Add(1)
+		go func(i int, link string) {
+			fileName := app.ParseLink(link)
+			// output in current directory
+			outputFileName := fmt.Sprintf("%s/%s-%d.png", outputFolder, fileName, i+1)
+			app.GenerateQR(link, outputFileName, transparent, FgColor)
+			// inform wait group that goroutine is done
+			wg.Done()
+		}(i, link)
 	}
+
+	// wait for all qr codes to be generated
+	// and then exit
+	// this is to prevent program from exiting before all qr codes are generated
+	wg.Wait()
+
 	fmt.Println("QR codes created")
 }
